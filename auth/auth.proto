@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package auth;
+option go_package = "myproject/auth;auth";
+
+import "google/api/annotations.proto";
+
+service AuthService {
+  rpc Login (LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/v2/login",
+      body: "*"
+    };
+  }
+  rpc ValidateToken (ValidateRequest) returns (ValidateResponse);
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string access_token = 1;
+}
+
+message ValidateRequest {
+  string access_token = 1;
+}
+
+message ValidateResponse {
+  string username = 1;
+  bool valid = 2;
+}
